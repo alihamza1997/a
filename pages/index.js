@@ -1,77 +1,61 @@
-import React, { useEffect } from 'react';
-import HeaderSection from '../components/HeaderSection';
-import HeroSection from '../components/HeroSection';
-import BenefitsSection from '../components/BenefitsSection';
-import FeaturesSection from '../components/FeaturesSection';
-import DemoSection from '../components/DemoSection';
-import DarkModeSection from '../components/DarkmodeSection';
-import CommunitySection from '../components/CommunitySection';
-import PricingSection from '../components/PricingSection';
-import AboutSection from '../components/AboutSection';
-import FAQSection from '../components/FAQSection';
-import FinalCTA from '../components/FinalCTASection';
-import Footer from '../components/FooterSection';
-import FooterSection from '../components/FooterSection';
+import React, { useEffect } from "react";
+import { track } from "@vercel/analytics";
+import Head from "next/head";
+import HeaderSection from "../components/HeaderSection";
+import HeroSection from "../components/HeroSection";
+// import BenefitsSection from "../components/BenefitsSection";
+import BenefitsSection from "../components/Benefits";
+import FeaturesSection from "../components/FeaturesSection";
+import DemoSection from "../components/DemoSection";
+import DarkModeSection from "../components/DarkmodeSection";
+import CommunitySection from "../components/CommunitySection";
+import PricingSection from "../components/PricingSection";
+import AboutSection from "../components/AboutSection";
+import FAQSection from "../components/FAQSection/FAQSection";
+import FinalCTA from "../components/FinalCTASection";
+import FooterSection from "../components/FooterSection";
+import ToTop from "../components/Common/ToTop";
+import BlazingSection from "../components/BlazingSection.js";
+import {
+  setupBeforeUnload,
+  setupLoad,
+  setupScroll,
+} from "../components/tracking";
 
 const IndexPage = () => {
+  <Head>
+    <meta
+      name="description"
+      content="Discover how Neuro Notion, built by ADHDers for ADHDers, addresses study struggles with features like hyper-focus tools, time-saving flashcards, custom ADHD focus timers, and AI-generated essay plans. Overcome distractions and work smarter with Neuro Notion."
+    />
+  </Head>;
+
   useEffect(() => {
-    // Tracking Script 1
-    function trackViewDemoButtonClick() {
-      va('event', {
-        name: 'ViewDemoButtonClick',
-        data: {
-          buttonType: 'ViewDemo',
-          timestamp: new Date().toISOString()
-        },
-      });
-    }
-
-    document.querySelectorAll('.view-demo-button').forEach(button => {
-      button.addEventListener('click', trackViewDemoButtonClick);
-    });
-
-    // Tracking Script 2
-    let pageLoadedTime = Date.now();
-
-    function trackQuickExit() {
-      let timeSpent = Date.now() - pageLoadedTime;
-      if (timeSpent <= 5000) {
-        va('event', {
-          name: 'QuickPageExit',
-          data: {
-            timeSpent: timeSpent
-          },
-        });
-      }
-    }
-
-    window.addEventListener('beforeunload', trackQuickExit);
-
-    // Tracking Script 3 (Google Tag)
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-    gtag('config', 'G-FTX0TWXP1E');
-  }, []); // Empty dependency array to run the effect only once
+    setupLoad();
+    setupScroll();
+    setupBeforeUnload();
+    track("Visited");
+  }, []);
 
   return (
     <>
       <HeaderSection />
       <HeroSection />
       <BenefitsSection />
+      {/* <BenefitsSection /> */}
       <FeaturesSection />
+      <BlazingSection />
       <DemoSection />
       <DarkModeSection />
-      <CommunitySection />
       <PricingSection />
-      <AboutSection />
       <FAQSection />
+      <CommunitySection />
+      <AboutSection />
       <FinalCTA />
       <FooterSection />
+      <ToTop />
     </>
   );
-}
+};
 
 export default IndexPage;
